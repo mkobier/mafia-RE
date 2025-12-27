@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <iostream>
 
+#pragma pack(push, 1)
 struct Vector3 
 {
     float x;

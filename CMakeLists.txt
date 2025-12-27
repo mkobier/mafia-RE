@@ -10,7 +10,7 @@ if(MSVC)
     add_compile_definitions(WIN32_LEAN_AND_MEAN)
 endif()
 
-add_library(${PROJECT_NAME} SHARED src/main.cpp)
+add_library(${PROJECT_NAME} SHARED src/dllmain.cpp)
 
 
 set_target_properties(${PROJECT_NAME} PROPERTIES 
