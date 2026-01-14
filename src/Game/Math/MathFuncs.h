@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include "../Structs.h"
+#include "../Vectors.h"
 
 namespace GameHooks {
     void __fastcall Vector_Addition(Vector3* base, void* edx_dummy, Vector3* addition);
