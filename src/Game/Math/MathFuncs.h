@@ -7,6 +7,7 @@ namespace GameHooks {
     Vector3* __fastcall Vector_Subtraction(Vector3* base, void* edx_dummy, Vector3* subtraction);
     void __fastcall Vector_Scale(Vector3* base, void* edx_dummy, float* scalar);
     void __fastcall Vector_Division(Vector3* base, void* edx_dummy, float scalar);
+    double __fastcall Vector_SquaredLength(Vector3* base, void* edx_dummy);
 
     void InitMathHooks(uintptr_t gameBaseAddress);
 }
