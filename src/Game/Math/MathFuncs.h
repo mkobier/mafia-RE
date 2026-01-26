@@ -1,6 +1,12 @@
 #pragma once
 #include <cstdint>
-#include "../Vectors.h"
+
+struct Vector3
+{
+    float x;
+    float z;
+    float y;
+};
 
 namespace GameHooks {
     void __fastcall Vector_Addition(Vector3* base, void* edx_dummy, Vector3* addition);

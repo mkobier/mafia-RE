@@ -11,8 +11,6 @@ set(SOURCES
     src/Core/Memory.h
     src/Core/Memory.cpp
     
-    src/Game/Vectors.h
-    
     src/Game/Math/MathFuncs.h
     src/Game/Math/MathFuncs.cpp
 )
