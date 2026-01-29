@@ -1,4 +1,4 @@
-#include "MathFuncs.h"
+#include "Vector3.h"
 #include "../../Core/Memory.h"
 #include <iostream>
 
@@ -50,7 +50,7 @@ namespace GameHooks
         return (double)(base->x * base->x) + (double)(base->z * base->z) + (double)(base->y * base->y);
     }
 
-    void InitMathHooks(uintptr_t gameBaseAddress) 
+    void InitVector3Hooks(uintptr_t gameBaseAddress) 
     {
         uintptr_t absoluteAddrAdd = gameBaseAddress + ADDR_VECTOR_ADDITION;
         Memory::InstallHook(absoluteAddrAdd, (void*)&Vector_Addition, 5);

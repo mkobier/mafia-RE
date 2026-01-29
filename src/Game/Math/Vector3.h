@@ -15,5 +15,5 @@ namespace GameHooks {
     void __fastcall Vector_Division(Vector3* base, void* edx_dummy, float scalar);
     double __fastcall Vector_SquaredLength(Vector3* base, void* edx_dummy);
 
-    void InitMathHooks(uintptr_t gameBaseAddress);
+    void InitVector3Hooks(uintptr_t gameBaseAddress);
 }

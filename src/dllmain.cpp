@@ -1,5 +1,5 @@
 #include <windows.h>
-#include "Game/Math/MathFuncs.h"
+#include "Game/Math/Vector3.h"
 
 DWORD WINAPI MainThread(LPVOID lpParam) {
     HMODULE hGame = GetModuleHandle(NULL);
@@ -7,7 +7,7 @@ DWORD WINAPI MainThread(LPVOID lpParam) {
     if (hGame) {
         uintptr_t baseAddress = (uintptr_t)hGame;
 
-        GameHooks::InitMathHooks(baseAddress);
+        GameHooks::InitVector3Hooks(baseAddress);
     }
 
     return 0;
