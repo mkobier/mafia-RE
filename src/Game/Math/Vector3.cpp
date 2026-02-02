@@ -10,6 +10,7 @@ namespace GameHooks
     constexpr uintptr_t ADDR_VECTOR_SCALE = 0xB9E0;
     constexpr uintptr_t ADDR_VECTOR_DIVISION = 0xF9BB0;
     constexpr uintptr_t ADDR_VECTOR_SQUARED_LENGTH = 0x564D0;
+    constexpr uintptr_t ADDR_VECTOR_SUM = 0xAE00;
     
     void __fastcall Vector_Addition(Vector3* base, void* edx_dummy, Vector3* addition)
     {
@@ -50,6 +51,15 @@ namespace GameHooks
         return (double)(base->x * base->x) + (double)(base->z * base->z) + (double)(base->y * base->y);
     }
 
+    Vector3* __fastcall Vector_Sum(Vector3* pierwszy, void* edx_dummy, Vector3* cel, Vector3* drugi)
+    {
+        cel->x = pierwszy->x + drugi->x;
+        cel->z = pierwszy->z + drugi->z;
+        cel->y = pierwszy->y + drugi->y;
+
+        return cel;
+    }
+
     void InitVector3Hooks(uintptr_t gameBaseAddress) 
     {
         uintptr_t absoluteAddrAdd = gameBaseAddress + ADDR_VECTOR_ADDITION;
@@ -66,5 +76,8 @@ namespace GameHooks
 
         uintptr_t absoluteAddrSqLen = gameBaseAddress + ADDR_VECTOR_SQUARED_LENGTH;
         Memory::InstallHook(absoluteAddrSqLen, (void*)&Vector_SquaredLength, 5);
+
+        uintptr_t absoluteAddrSum = gameBaseAddress + ADDR_VECTOR_SUM;
+        Memory::InstallHook(absoluteAddrSum, (void*)&Vector_Sum, 5);
     }
 }
