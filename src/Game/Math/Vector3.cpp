@@ -51,13 +51,13 @@ namespace GameHooks
         return (double)(base->x * base->x) + (double)(base->z * base->z) + (double)(base->y * base->y);
     }
 
-    Vector3* __fastcall Vector_Sum(Vector3* pierwszy, void* edx_dummy, Vector3* cel, Vector3* drugi)
+    Vector3* __fastcall Vector_Sum(Vector3* base, void* edx_dummy, Vector3* result, Vector3* addition)
     {
-        cel->x = pierwszy->x + drugi->x;
-        cel->z = pierwszy->z + drugi->z;
-        cel->y = pierwszy->y + drugi->y;
+        result->x = base->x + addition->x;
+        result->z = base->z + addition->z;
+        result->y = base->y + addition->y;
 
-        return cel;
+        return result;
     }
 
     void InitVector3Hooks(uintptr_t gameBaseAddress) 
