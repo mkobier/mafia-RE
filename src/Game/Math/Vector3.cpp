@@ -12,6 +12,8 @@ namespace GameHooks
     constexpr uintptr_t ADDR_VECTOR_SQUARED_LENGTH = 0x564D0;
     constexpr uintptr_t ADDR_VECTOR_ADDITION = 0xAE00;
     constexpr uintptr_t ADDR_VECTOR_SUBTRACTION = 0x7540;
+    constexpr uintptr_t ADDR_VECTOR_COPY_COORDINATES = 0x2A30;
+    constexpr uintptr_t ADDR_VECTOR_COPY = 0x38EE0;
     
     void __fastcall Vector_Addition_Simple(Vector3* base, void* edx_dummy, Vector3* addition)
     {
@@ -70,6 +72,24 @@ namespace GameHooks
         return result;
     }
 
+    Vector3* __fastcall Vector_CopyCoordinates(Vector3* base, void* edx_dummy, float x, float z, float y)
+    {
+        base->x = x;
+        base->z = z;
+        base->y = y;
+
+        return base;
+    }
+
+    Vector3* __fastcall Vector_Copy(Vector3* src, void* edx_dummy, Vector3* dest)
+    {
+        dest->x = src->x;
+        dest->z = src->z;
+        dest->y = src->y;
+
+        return dest;
+    }
+
     void InitVector3Hooks(uintptr_t gameBaseAddress) 
     {
         uintptr_t absoluteAddrAddS = gameBaseAddress + ADDR_VECTOR_ADDITION_SIMPLE;
@@ -92,5 +112,11 @@ namespace GameHooks
 
         uintptr_t absoluteAddrSub = gameBaseAddress + ADDR_VECTOR_SUBTRACTION;
         Memory::InstallHook(absoluteAddrSub, (void*)&Vector_Subtraction, 5);
+
+        uintptr_t absoluteAddrCopyCoords = gameBaseAddress + ADDR_VECTOR_COPY_COORDINATES;
+        Memory::InstallHook(absoluteAddrCopyCoords, (void*)&Vector_CopyCoordinates, 5);
+
+        uintptr_t absoluteAddrCopy = gameBaseAddress + ADDR_VECTOR_COPY;
+        Memory::InstallHook(absoluteAddrCopy, (void*)&Vector_Copy, 5);
     }
 }

@@ -16,6 +16,8 @@ namespace GameHooks {
     double __fastcall Vector_SquaredLength(Vector3* base, void* edx_dummy);
     Vector3* __fastcall Vector_Addition(Vector3* base, void* edx_dummy, Vector3* result, Vector3* addition);
     Vector3* __fastcall Vector_Subtraction(Vector3* base, void* edx_dummy, Vector3* result, Vector3* subtraction);
+    Vector3* __fastcall Vector_CopyCoordinates(Vector3* base, void* edx_dummy, float x, float z, float y);
+    Vector3* __fastcall Vector_Copy(Vector3* src, void* edx_dummy, Vector3* dest);
 
     void InitVector3Hooks(uintptr_t gameBaseAddress);
 }
