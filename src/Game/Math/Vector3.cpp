@@ -7,7 +7,8 @@ namespace GameHooks
 
     constexpr uintptr_t ADDR_VECTOR_ADDITION_SIMPLE = 0xBA00;
     constexpr uintptr_t ADDR_VECTOR_SUBTRACTION_SIMPLE = 0x564A0;
-    constexpr uintptr_t ADDR_VECTOR_SCALE = 0xB9E0;
+    constexpr uintptr_t ADDR_VECTOR_SCALE_SIMPLE = 0xB9E0;
+    constexpr uintptr_t ADDR_VECTOR_SCALE = 0xADD0;
     constexpr uintptr_t ADDR_VECTOR_DIVISION = 0xF9BB0;
     constexpr uintptr_t ADDR_VECTOR_SQUARED_LENGTH = 0x564D0;
     constexpr uintptr_t ADDR_VECTOR_ADDITION = 0xAE00;
@@ -31,13 +32,24 @@ namespace GameHooks
         return base;
     }
 
-    void __fastcall Vector_Scale(Vector3* base, void* edx_dummy, float* scalar)
+    void __fastcall Vector_Scale_Simple(Vector3* base, void* edx_dummy, float* scalar)
     {
         float s = *scalar;
 
         base->x = s * base->x;
         base->z = s * base->z;
         base->y = s * base->y;
+    }
+
+    Vector3* __fastcall Vector_Scale(Vector3* source, void* edx_dummy, Vector3* result, float* scalar)
+    {
+        float s = *scalar;
+
+        result->x = s * source->x;
+        result->z = s * source->z;
+        result->y = s * source->y;
+
+        return result;
     }
 
     void __fastcall Vector_Division(Vector3* base, void* edx_dummy, float scalar)
@@ -97,6 +109,9 @@ namespace GameHooks
 
         uintptr_t absoluteAddrSubS = gameBaseAddress + ADDR_VECTOR_SUBTRACTION_SIMPLE;
         Memory::InstallHook(absoluteAddrSubS, (void*)&Vector_Subtraction_Simple, 5);
+
+        uintptr_t absoluteAddrMulS = gameBaseAddress + ADDR_VECTOR_SCALE_SIMPLE;
+        Memory::InstallHook(absoluteAddrMulS, (void*)&Vector_Scale_Simple, 5);
 
         uintptr_t absoluteAddrMul = gameBaseAddress + ADDR_VECTOR_SCALE;
         Memory::InstallHook(absoluteAddrMul, (void*)&Vector_Scale, 5);
