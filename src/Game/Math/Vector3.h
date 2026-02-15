@@ -9,14 +9,14 @@ struct Vector3
 };
 
 namespace GameHooks {
+    Vector3* __fastcall Vector_Addition(Vector3* base, void* edx_dummy, Vector3* result, Vector3* addition);
     void __fastcall Vector_Addition_Simple(Vector3* base, void* edx_dummy, Vector3* addition);
+    Vector3* __fastcall Vector_Subtraction(Vector3* base, void* edx_dummy, Vector3* result, Vector3* subtraction);
     Vector3* __fastcall Vector_Subtraction_Simple(Vector3* base, void* edx_dummy, Vector3* subtraction);
-    void __fastcall Vector_Scale_Simple(Vector3* base, void* edx_dummy, float* scalar);
     Vector3* __fastcall Vector_Scale(Vector3* source, void* edx_dummy, Vector3* result, float* scalar);
+    void __fastcall Vector_Scale_Simple(Vector3* base, void* edx_dummy, float* scalar);
     void __fastcall Vector_Division(Vector3* base, void* edx_dummy, float scalar);
     double __fastcall Vector_SquaredLength(Vector3* base, void* edx_dummy);
-    Vector3* __fastcall Vector_Addition(Vector3* base, void* edx_dummy, Vector3* result, Vector3* addition);
-    Vector3* __fastcall Vector_Subtraction(Vector3* base, void* edx_dummy, Vector3* result, Vector3* subtraction);
     Vector3* __fastcall Vector_CopyCoordinates(Vector3* base, void* edx_dummy, float x, float z, float y);
     Vector3* __fastcall Vector_Copy(Vector3* src, void* edx_dummy, Vector3* dest);
 
