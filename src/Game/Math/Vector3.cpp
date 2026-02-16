@@ -11,7 +11,8 @@ namespace GameHooks
     constexpr uintptr_t ADDR_VECTOR_SUBTRACTION_SIMPLE = 0x564A0;
     constexpr uintptr_t ADDR_VECTOR_SCALE = 0xADD0;
     constexpr uintptr_t ADDR_VECTOR_SCALE_SIMPLE = 0xB9E0;
-    constexpr uintptr_t ADDR_VECTOR_DIVISION = 0xF9BB0;
+    constexpr uintptr_t ADDR_VECTOR_DIVISION = 0x1CA370;
+    constexpr uintptr_t ADDR_VECTOR_DIVISION_SIMPLE = 0xF9BB0;
     constexpr uintptr_t ADDR_VECTOR_SQUARED_LENGTH = 0x564D0;
     constexpr uintptr_t ADDR_VECTOR_COPY_COORDINATES = 0x2A30;
     constexpr uintptr_t ADDR_VECTOR_COPY = 0x38EE0;
@@ -70,13 +71,24 @@ namespace GameHooks
         base->y = s * base->y;
     }
 
-    void __fastcall Vector_Division(Vector3* base, void* edx_dummy, float scalar)
+    Vector3* __fastcall Vector_Division(Vector3* base, void* edx_dummy, Vector3* result, float scalar)
     {
-        float s = 1.0f / scalar;
+        float inverse_scalar = 1.0f / scalar;
 
-        base->x = s * base->x;
-        base->z = s * base->z;
-        base->y = s * base->y;
+        result->x = inverse_scalar * base->x;
+        result->z = inverse_scalar * base->z;
+        result->y = inverse_scalar * base->y;
+
+        return result;
+    }
+
+    void __fastcall Vector_Division_Simple(Vector3* base, void* edx_dummy, float scalar)
+    {
+        float inverse_scalar = 1.0f / scalar;
+
+        base->x = inverse_scalar * base->x;
+        base->z = inverse_scalar * base->z;
+        base->y = inverse_scalar * base->y;
     }
 
     double __fastcall Vector_SquaredLength(Vector3* base, void* edx_dummy)
@@ -124,6 +136,9 @@ namespace GameHooks
 
         uintptr_t absoluteAddrDiv = gameBaseAddress + ADDR_VECTOR_DIVISION;
         Memory::InstallHook(absoluteAddrDiv, (void*)&Vector_Division, 5);
+
+        uintptr_t absoluteAddrDivS = gameBaseAddress + ADDR_VECTOR_DIVISION_SIMPLE;
+        Memory::InstallHook(absoluteAddrDivS, (void*)&Vector_Division_Simple, 5);
 
         uintptr_t absoluteAddrSqLen = gameBaseAddress + ADDR_VECTOR_SQUARED_LENGTH;
         Memory::InstallHook(absoluteAddrSqLen, (void*)&Vector_SquaredLength, 5);
