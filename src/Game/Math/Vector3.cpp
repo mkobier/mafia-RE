@@ -2,151 +2,115 @@
 #include "../../Core/Memory.h"
 #include <iostream>
 
-namespace GameHooks 
+
+Vector3* Vector3::Addition(Vector3* result, Vector3* addition)
 {
+    result->x = this->x + addition->x;
+    result->z = this->z + addition->z;
+    result->y = this->y + addition->y;
 
-    constexpr uintptr_t ADDR_VECTOR_ADDITION = 0xAE00;
-    constexpr uintptr_t ADDR_VECTOR_ADDITION_SIMPLE = 0xBA00;
-    constexpr uintptr_t ADDR_VECTOR_SUBTRACTION = 0x7540;
-    constexpr uintptr_t ADDR_VECTOR_SUBTRACTION_SIMPLE = 0x564A0;
-    constexpr uintptr_t ADDR_VECTOR_SCALE = 0xADD0;
-    constexpr uintptr_t ADDR_VECTOR_SCALE_SIMPLE = 0xB9E0;
-    constexpr uintptr_t ADDR_VECTOR_DIVISION = 0x1CA370;
-    constexpr uintptr_t ADDR_VECTOR_DIVISION_SIMPLE = 0xF9BB0;
-    constexpr uintptr_t ADDR_VECTOR_SQUARED_LENGTH = 0x564D0;
-    constexpr uintptr_t ADDR_VECTOR_COPY_COORDINATES = 0x2A30;
-    constexpr uintptr_t ADDR_VECTOR_COPY = 0x38EE0;
-    
-    Vector3* __fastcall Vector_Addition(Vector3* base, void* edx_dummy, Vector3* result, Vector3* addition)
-    {
-        result->x = base->x + addition->x;
-        result->z = base->z + addition->z;
-        result->y = base->y + addition->y;
+    return result;
+}
 
-        return result;
-    }
+void Vector3::AdditionSimple(Vector3* addition)
+{
+    this->x = this->x + addition->x;
+    this->z = this->z + addition->z;
+    this->y = this->y + addition->y;
+}
 
-    void __fastcall Vector_Addition_Simple(Vector3* base, void* edx_dummy, Vector3* addition)
-    {
-        base->x = base->x + addition->x;
-        base->z = base->z + addition->z;
-        base->y = base->y + addition->y;
-    }
+Vector3* Vector3::Subtraction(Vector3* result, Vector3* subtraction)
+{
+    result->x = this->x - subtraction->x;
+    result->y = this->y - subtraction->y;
+    result->z = this->z - subtraction->z;
 
-    Vector3* __fastcall Vector_Subtraction(Vector3* base, void* edx_dummy, Vector3* result, Vector3* subtraction)
-    {
-        result->x = base->x - subtraction->x;
-        result->y = base->y - subtraction->y;
-        result->z = base->z - subtraction->z;
+    return result;
+}
 
-        return result;
-    }
+Vector3* Vector3::SubtractionSimple(Vector3* subtraction)
+{
+    this->x = this->x - subtraction->x;
+    this->z = this->z - subtraction->z;
+    this->y = this->y - subtraction->y;
 
-    Vector3* __fastcall Vector_Subtraction_Simple(Vector3* base, void* edx_dummy, Vector3* subtraction)
-    {
-        base->x = base->x - subtraction->x;
-        base->z = base->z - subtraction->z;
-        base->y = base->y - subtraction->y;
+    return this;
+}
 
-        return base;
-    }
+Vector3* Vector3::Scale(Vector3* result, float* scalar)
+{
+    float s = *scalar;
 
-    Vector3* __fastcall Vector_Scale(Vector3* source, void* edx_dummy, Vector3* result, float* scalar)
-    {
-        float s = *scalar;
+    result->x = s * this->x;
+    result->z = s * this->z;
+    result->y = s * this->y;
 
-        result->x = s * source->x;
-        result->z = s * source->z;
-        result->y = s * source->y;
+    return result;
+}
 
-        return result;
-    }
+void Vector3::ScaleSimple(float* scalar)
+{
+    float s = *scalar;
 
-    void __fastcall Vector_Scale_Simple(Vector3* base, void* edx_dummy, float* scalar)
-    {
-        float s = *scalar;
+    this->x = s * this->x;
+    this->z = s * this->z;
+    this->y = s * this->y;
+}
 
-        base->x = s * base->x;
-        base->z = s * base->z;
-        base->y = s * base->y;
-    }
+Vector3* Vector3::Division(Vector3* result, float scalar)
+{
+    float inverse_scalar = 1.0f / scalar;
 
-    Vector3* __fastcall Vector_Division(Vector3* base, void* edx_dummy, Vector3* result, float scalar)
-    {
-        float inverse_scalar = 1.0f / scalar;
+    result->x = inverse_scalar * this->x;
+    result->z = inverse_scalar * this->z;
+    result->y = inverse_scalar * this->y;
 
-        result->x = inverse_scalar * base->x;
-        result->z = inverse_scalar * base->z;
-        result->y = inverse_scalar * base->y;
+    return result;
+}
 
-        return result;
-    }
+void Vector3::DivisionSimple(float scalar)
+{
+    float inverse_scalar = 1.0f / scalar;
 
-    void __fastcall Vector_Division_Simple(Vector3* base, void* edx_dummy, float scalar)
-    {
-        float inverse_scalar = 1.0f / scalar;
+    this->x = inverse_scalar * this->x;
+    this->z = inverse_scalar * this->z;
+    this->y = inverse_scalar * this->y;
+}
 
-        base->x = inverse_scalar * base->x;
-        base->z = inverse_scalar * base->z;
-        base->y = inverse_scalar * base->y;
-    }
+double Vector3::SquaredLength()
+{
+    return (double)(this->x * this->x) + (double)(this->z * this->z) + (double)(this->y * this->y);
+}
 
-    double __fastcall Vector_SquaredLength(Vector3* base, void* edx_dummy)
-    {
-        return (double)(base->x * base->x) + (double)(base->z * base->z) + (double)(base->y * base->y);
-    }
+Vector3* Vector3::CopyCoordinates(float x, float z, float y)
+{
+    this->x = x;
+    this->z = z;
+    this->y = y;
 
-    Vector3* __fastcall Vector_CopyCoordinates(Vector3* base, void* edx_dummy, float x, float z, float y)
-    {
-        base->x = x;
-        base->z = z;
-        base->y = y;
+    return this;
+}
 
-        return base;
-    }
+Vector3* Vector3::Copy(Vector3* dest)
+{
+    dest->x = this->x;
+    dest->z = this->z;
+    dest->y = this->y;
 
-    Vector3* __fastcall Vector_Copy(Vector3* src, void* edx_dummy, Vector3* dest)
-    {
-        dest->x = src->x;
-        dest->z = src->z;
-        dest->y = src->y;
+    return dest;
+}
 
-        return dest;
-    }
-
-    void InitVector3Hooks(uintptr_t gameBaseAddress) 
-    {
-        uintptr_t absoluteAddrAdd = gameBaseAddress + ADDR_VECTOR_ADDITION;
-        Memory::InstallHook(absoluteAddrAdd, (void*)&Vector_Addition, 5);
-
-        uintptr_t absoluteAddrAddS = gameBaseAddress + ADDR_VECTOR_ADDITION_SIMPLE;
-        Memory::InstallHook(absoluteAddrAddS, (void*)&Vector_Addition_Simple, 5);
-
-        uintptr_t absoluteAddrSub = gameBaseAddress + ADDR_VECTOR_SUBTRACTION;
-        Memory::InstallHook(absoluteAddrSub, (void*)&Vector_Subtraction, 5);
-
-        uintptr_t absoluteAddrSubS = gameBaseAddress + ADDR_VECTOR_SUBTRACTION_SIMPLE;
-        Memory::InstallHook(absoluteAddrSubS, (void*)&Vector_Subtraction_Simple, 5);
-
-        uintptr_t absoluteAddrMul = gameBaseAddress + ADDR_VECTOR_SCALE;
-        Memory::InstallHook(absoluteAddrMul, (void*)&Vector_Scale, 5);
-
-        uintptr_t absoluteAddrMulS = gameBaseAddress + ADDR_VECTOR_SCALE_SIMPLE;
-        Memory::InstallHook(absoluteAddrMulS, (void*)&Vector_Scale_Simple, 5);
-
-        uintptr_t absoluteAddrDiv = gameBaseAddress + ADDR_VECTOR_DIVISION;
-        Memory::InstallHook(absoluteAddrDiv, (void*)&Vector_Division, 5);
-
-        uintptr_t absoluteAddrDivS = gameBaseAddress + ADDR_VECTOR_DIVISION_SIMPLE;
-        Memory::InstallHook(absoluteAddrDivS, (void*)&Vector_Division_Simple, 5);
-
-        uintptr_t absoluteAddrSqLen = gameBaseAddress + ADDR_VECTOR_SQUARED_LENGTH;
-        Memory::InstallHook(absoluteAddrSqLen, (void*)&Vector_SquaredLength, 5);
-
-        uintptr_t absoluteAddrCopyCoords = gameBaseAddress + ADDR_VECTOR_COPY_COORDINATES;
-        Memory::InstallHook(absoluteAddrCopyCoords, (void*)&Vector_CopyCoordinates, 5);
-
-        uintptr_t absoluteAddrCopy = gameBaseAddress + ADDR_VECTOR_COPY;
-        Memory::InstallHook(absoluteAddrCopy, (void*)&Vector_Copy, 5);
-    }
+void Vector3::InitHooks(uintptr_t gameBaseAddress) 
+{
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_ADDITION, FindFunctionAdress(&Vector3::Addition), 5);
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_ADDITION_SIMPLE, FindFunctionAdress(&Vector3::AdditionSimple), 5);
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_SUBTRACTION, FindFunctionAdress(&Vector3::Subtraction), 5);
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_SUBTRACTION_SIMPLE, FindFunctionAdress(&Vector3::SubtractionSimple), 5);
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_SCALE, FindFunctionAdress(&Vector3::Scale), 5);
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_SCALE_SIMPLE, FindFunctionAdress(&Vector3::ScaleSimple), 5);
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_DIVISION, FindFunctionAdress(&Vector3::Division), 5);
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_DIVISION_SIMPLE, FindFunctionAdress(&Vector3::DivisionSimple), 5);
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_SQUARED_LENGTH, FindFunctionAdress(&Vector3::SquaredLength), 5);
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_COPY_COORDINATES, FindFunctionAdress(&Vector3::CopyCoordinates), 5);
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_COPY, FindFunctionAdress(&Vector3::Copy), 5);
 }

@@ -7,7 +7,7 @@ DWORD WINAPI MainThread(LPVOID lpParam) {
     if (hGame) {
         uintptr_t baseAddress = (uintptr_t)hGame;
 
-        GameHooks::InitVector3Hooks(baseAddress);
+        Vector3::InitHooks(baseAddress);
     }
 
     return 0;
