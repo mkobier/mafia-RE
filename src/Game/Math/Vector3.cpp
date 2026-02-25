@@ -22,8 +22,8 @@ void Vector3::AdditionSimple(Vector3* addition)
 Vector3* Vector3::Subtraction(Vector3* result, Vector3* subtraction)
 {
     result->x = this->x - subtraction->x;
-    result->y = this->y - subtraction->y;
     result->z = this->z - subtraction->z;
+    result->y = this->y - subtraction->y;
 
     return result;
 }
@@ -100,6 +100,13 @@ Vector3* Vector3::Copy(Vector3* dest)
     return dest;
 }
 
+double Vector3::DotProduct(Vector3* other)
+{
+    return other->x * this->x
+        + other->z * this->z
+        + other->y * this->y;
+}
+
 void Vector3::InitHooks(uintptr_t gameBaseAddress) 
 {
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_ADDITION, FindFunctionAdress(&Vector3::Addition), 5);
@@ -113,4 +120,5 @@ void Vector3::InitHooks(uintptr_t gameBaseAddress)
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_SQUARED_LENGTH, FindFunctionAdress(&Vector3::SquaredLength), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_COPY_COORDINATES, FindFunctionAdress(&Vector3::CopyCoordinates), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_COPY, FindFunctionAdress(&Vector3::Copy), 5);
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_DOT_PRODUCT, FindFunctionAdress(&Vector3::DotProduct), 5);
 }

@@ -19,6 +19,7 @@ public:
     static constexpr uintptr_t ADDR_VECTOR_SQUARED_LENGTH = 0x564D0;
     static constexpr uintptr_t ADDR_VECTOR_COPY_COORDINATES = 0x2A30;
     static constexpr uintptr_t ADDR_VECTOR_COPY = 0x38EE0;
+    static constexpr uintptr_t ADDR_VECTOR_DOT_PRODUCT = 0x7570;
 
     Vector3* Addition(Vector3* result, Vector3* addition);
     void AdditionSimple(Vector3* addition);
@@ -31,6 +32,7 @@ public:
     double SquaredLength();
     Vector3* CopyCoordinates(float x, float z, float y);
     Vector3* Copy(Vector3* dest);
+    double DotProduct(Vector3* other);
 
     static void InitHooks(uintptr_t gameBaseAddress);
 };
