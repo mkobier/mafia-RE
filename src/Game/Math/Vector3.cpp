@@ -107,6 +107,15 @@ double Vector3::DotProduct(Vector3* other)
         + other->y * this->y;
 }
 
+Vector3* Vector3::CrossProduct(Vector3* result, const Vector3* other) 
+{
+    result->x = this->z * other->y - this->y * other->z;
+    result->z = this->y * other->x - other->y * this->x;
+    result->y = this->x * other->z - this->z * other->x;
+
+    return result;
+}
+
 void Vector3::InitHooks(uintptr_t gameBaseAddress) 
 {
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_ADDITION, FindFunctionAdress(&Vector3::Addition), 5);
@@ -121,4 +130,5 @@ void Vector3::InitHooks(uintptr_t gameBaseAddress)
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_COPY_COORDINATES, FindFunctionAdress(&Vector3::CopyCoordinates), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_COPY, FindFunctionAdress(&Vector3::Copy), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_DOT_PRODUCT, FindFunctionAdress(&Vector3::DotProduct), 5);
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_CROSS_PRODUCT, FindFunctionAdress(&Vector3::CrossProduct), 5);
 }
