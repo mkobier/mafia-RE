@@ -116,6 +116,26 @@ Vector3* Vector3::CrossProduct(Vector3* result, const Vector3* other)
     return result;
 }
 
+double Vector3::CalculateLength() 
+{
+    const double epsilon = 0.00000000999999993922529;
+    float distance_squared;
+    
+    distance_squared = this->x * this->x + this->z * this->z + this->y * this->y;
+
+    if (distance_squared < 1.0083514e-8f) 
+    {
+        return 0.0;
+    }
+
+    if (fabs(distance_squared - 1.0) >= epsilon) 
+    {
+        return sqrt(distance_squared);
+    }
+
+    return 1.0;
+}
+
 void Vector3::InitHooks(uintptr_t gameBaseAddress) 
 {
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_ADDITION, FindFunctionAdress(&Vector3::Addition), 5);
@@ -131,4 +151,5 @@ void Vector3::InitHooks(uintptr_t gameBaseAddress)
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_COPY, FindFunctionAdress(&Vector3::Copy), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_DOT_PRODUCT, FindFunctionAdress(&Vector3::DotProduct), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_CROSS_PRODUCT, FindFunctionAdress(&Vector3::CrossProduct), 5);
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_CALCULATE_LENGTH, FindFunctionAdress(&Vector3::CalculateLength), 5);
 }

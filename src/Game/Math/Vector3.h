@@ -21,6 +21,7 @@ public:
     static constexpr uintptr_t ADDR_VECTOR_COPY = 0x38EE0;
     static constexpr uintptr_t ADDR_VECTOR_DOT_PRODUCT = 0x7570;
     static constexpr uintptr_t ADDR_VECTOR_CROSS_PRODUCT = 0xBA30;
+    static constexpr uintptr_t ADDR_VECTOR_CALCULATE_LENGTH = 0x15AE0;
 
     Vector3* Addition(Vector3* result, Vector3* addition);
     void AdditionSimple(Vector3* addition);
@@ -35,6 +36,7 @@ public:
     Vector3* Copy(Vector3* dest);
     double DotProduct(Vector3* other);
     Vector3* CrossProduct(Vector3* result, const Vector3* other);
+    double CalculateLength();
 
     static void InitHooks(uintptr_t gameBaseAddress);
 };
