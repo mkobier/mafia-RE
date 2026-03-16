@@ -2,6 +2,14 @@
 #include "../../Core/Memory.h"
 #include <iostream>
 
+Vector2* Vector2::Multiply(Vector2* result, Vector2* operand)
+{
+    result->x = operand->x * this->x;
+    result->y = operand->y * this->y;
+
+    return result;
+}
+
 Vector2* Vector2::Sum(Vector2* result, Vector2* addition)
 {
     result->x = this->x + addition->x;
@@ -12,5 +20,6 @@ Vector2* Vector2::Sum(Vector2* result, Vector2* addition)
 
 void Vector2::InitHooks(uintptr_t gameBaseAddress)
 {
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_MULTIPLY, FindFunctionAdress(&Vector2::Multiply), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_SUM, FindFunctionAdress(&Vector2::Sum), 5);
 }
