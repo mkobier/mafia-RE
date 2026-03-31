@@ -2,9 +2,9 @@
 #include "../../Core/Memory.h"
 #include <iostream>
 
-double __fastcall Vector2::AngleBetweenVectors(Vector2* first, Vector2* second)
+double __fastcall Vector2::AngleBetweenVectors(Vector2* other)
 {
-    double result = atan2(second->y, second->x) - atan2(first->y, first->x);
+    double result = atan2(other->y, other->x) - atan2(this->y, this->x);
 
     if (result < -3.1415927)
     {
