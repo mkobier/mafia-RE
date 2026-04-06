@@ -15,7 +15,11 @@ set(SOURCES
     src/Game/Math/Vector3.cpp
 
     src/Game/Math/Vector2.h
-    src/Game/Math/Vector2.cpp)
+    src/Game/Math/Vector2.cpp
+
+    src/Game/Trams/TramPassenger.h
+    src/Game/Trams/TramPassenger.cpp
+)
 
 if(MSVC)
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)

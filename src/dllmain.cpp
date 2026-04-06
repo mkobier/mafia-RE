@@ -1,8 +1,10 @@
 #include <windows.h>
 #include "Game/Math/Vector3.h"
 #include "Game/Math/Vector2.h"
+#include "Game/Trams/TramPassenger.h"
 
-DWORD WINAPI MainThread(LPVOID lpParam) {
+DWORD WINAPI MainThread(LPVOID lpParam) 
+{
     HMODULE hGame = GetModuleHandle(NULL);
 
     if (hGame) {
@@ -10,12 +12,15 @@ DWORD WINAPI MainThread(LPVOID lpParam) {
 
         Vector3::InitHooks(baseAddress);
         Vector2::InitHooks(baseAddress);
-    }
+
+        TramPassenger::InitHooks(baseAddress);
+    }   
 
     return 0;
 }
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) 
+{
     if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
         DisableThreadLibraryCalls(hModule);
         CreateThread(NULL, 0, MainThread, hModule, 0, NULL);
