@@ -29,7 +29,7 @@ public:
     int fear_timer;
     int max_fear_time;
     int old_passenger_flag;
-    int old_Animation_number;
+    int old_animation_number;
     Matrix4x4 inverse_global_matrix;
     int field_8C;
     CollisionTreeData* collision_data;
@@ -39,6 +39,7 @@ public:
     static void InitHooks(uintptr_t gameBaseAddress);
 
 private:
+
     static constexpr uintptr_t ADDR_CREATE_EMPTY = 0x832E0;
 };
 
