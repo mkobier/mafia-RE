@@ -35,12 +35,14 @@ public:
     CollisionTreeData* collision_data;
 
     TramPassenger* CreateEmpty();
+    void CreateFear(int new_max_fear_time);
 
     static void InitHooks(uintptr_t gameBaseAddress);
 
 private:
 
     static constexpr uintptr_t ADDR_CREATE_EMPTY = 0x832E0;
+    static constexpr uintptr_t ADDR_CREATE_FEAR = 0x84550;
 };
 
 static_assert(sizeof(TramPassenger) == 0x94, "Size of TramPassenger class is incorrect!");
