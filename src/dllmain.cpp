@@ -1,4 +1,5 @@
 #include <windows.h>
+#include "Game/Math/Math.h"
 #include "Game/Math/Vector3.h"
 #include "Game/Math/Vector2.h"
 #include "Game/Trams/TramPassenger.h"
@@ -11,9 +12,11 @@ DWORD WINAPI MainThread(LPVOID lpParam)
     {
         uintptr_t baseAddress = (uintptr_t)hGame;
 
+        Math::InitHooks(baseAddress);
+
         Vector3::InitHooks(baseAddress);
         Vector2::InitHooks(baseAddress);
-
+        
         TramPassenger::InitHooks(baseAddress);
     }   
 
