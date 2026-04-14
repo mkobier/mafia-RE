@@ -35,6 +35,7 @@ public:
     CollisionTreeData* collision_data;
 
     TramPassenger* CreateEmpty();
+    void Kill(void* tram);
     void CreateFear(int new_max_fear_time);
 
     static void InitHooks(uintptr_t gameBaseAddress);
@@ -42,6 +43,7 @@ public:
 private:
 
     static constexpr uintptr_t ADDR_CREATE_EMPTY = 0x832E0;
+    static constexpr uintptr_t ADDR_KILL = 0x84230;
     static constexpr uintptr_t ADDR_CREATE_FEAR = 0x84550;
 };
 
