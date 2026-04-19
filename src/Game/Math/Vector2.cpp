@@ -2,9 +2,14 @@
 #include "../../Core/Memory.h"
 #include <iostream>
 
+double Vector2::GetLength()
+{
+    return std::sqrt(this->x * this->x + this->y * this->y);
+}
+
 double __fastcall Vector2::AngleBetweenVectors(Vector2* other)
 {
-    double result = atan2(other->y, other->x) - atan2(this->y, this->x);
+    double result = std::atan2(other->y, other->x) - std::atan2(this->y, this->x);
 
     if (result < -3.1415927)
     {
@@ -45,6 +50,7 @@ Vector2* Vector2::Sum(Vector2* result, Vector2* addition)
 
 void Vector2::InitHooks(uintptr_t gameBaseAddress)
 {
+    Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_GET_LENGTH, FindFunctionAdress(&Vector2::GetLength), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_ANGLE_BETWEEN_VECTORS, FindFunctionAdress(&Vector2::AngleBetweenVectors), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_ADD, FindFunctionAdress(&Vector2::Add), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_VECTOR_MULTIPLY, FindFunctionAdress(&Vector2::Multiply), 5);

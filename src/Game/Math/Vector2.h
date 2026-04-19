@@ -7,6 +7,7 @@ public:
     float x;
     float y;
 
+    double GetLength();
     double __fastcall AngleBetweenVectors(Vector2* other);
     Vector2* Add(Vector2* other);
     Vector2* Multiply(Vector2* result, Vector2* operand);
@@ -16,6 +17,7 @@ public:
 
 private:
 
+    static constexpr uintptr_t ADDR_VECTOR_GET_LENGTH = 0x2550;
     static constexpr uintptr_t ADDR_ANGLE_BETWEEN_VECTORS = 0x8490;
     static constexpr uintptr_t ADDR_VECTOR_ADD = 0x9B7C0;
     static constexpr uintptr_t ADDR_VECTOR_MULTIPLY = 0x1F7640;
