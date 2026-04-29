@@ -2,7 +2,9 @@
 #include "Game/Math/Math.h"
 #include "Game/Math/Vector3.h"
 #include "Game/Math/Vector2.h"
+#include "Game/Trams/Tram.h"
 #include "Game/Trams/TramPassenger.h"
+
 
 DWORD WINAPI MainThread(LPVOID lpParam) 
 {
@@ -17,7 +19,9 @@ DWORD WINAPI MainThread(LPVOID lpParam)
         Vector3::InitHooks(baseAddress);
         Vector2::InitHooks(baseAddress);
         
+        Tram::InitHooks(baseAddress);
         TramPassenger::InitHooks(baseAddress);
+     
     }   
 
     return 0;

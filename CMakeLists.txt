@@ -20,6 +20,9 @@ set(SOURCES
     src/Game/Math/Vector2.h
     src/Game/Math/Vector2.cpp
 
+    src/Game/Trams/Tram.h
+    src/Game/Trams/Tram.cpp
+
     src/Game/Trams/TramPassenger.h
     src/Game/Trams/TramPassenger.cpp
 )
