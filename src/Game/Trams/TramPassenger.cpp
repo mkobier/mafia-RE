@@ -1,16 +1,15 @@
 #include "../../Core/memory.h"
-#include "TramPassenger.h"
 #include "../Math/Math.h"
+#include "../Math/Vector3.h"
+#include "TramPassenger.h"
+#include "Tram.h"
 #include <iostream>
 
 typedef void(__thiscall* SendAnimToEngineFunc)(TramPassenger* pThis, unsigned int a2);
 typedef void(__thiscall* DecreasePassengersFunc)(void* tram);
 
 static SendAnimToEngineFunc g_SendAnimationToEngine = nullptr;
-static DecreasePassengersFunc g_DecreasePassengers = nullptr;
-
 static constexpr uintptr_t ADDR_SEND_ANIM = 0x841A0;
-static constexpr uintptr_t ADDR_DECREASE_PASSENGERS = 0x97990;
 
 TramPassenger* TramPassenger::CreateEmpty()
 {
@@ -22,7 +21,7 @@ TramPassenger* TramPassenger::CreateEmpty()
     return this;
 }
 
-void TramPassenger::Kill(void* tram)
+void TramPassenger::Kill(Tram* tram)
 {
     if (this->passenger_flag == 22)
         this->passenger_flag = this->old_passenger_flag;
@@ -42,7 +41,7 @@ void TramPassenger::Kill(void* tram)
     case 14:
     case 15:
     case 16:
-        g_DecreasePassengers(tram);
+        tram->DecreaseActivePassengers();
         __fallthrough;
     case 6:
     case 7:
@@ -100,8 +99,6 @@ void TramPassenger::CreateFear(int new_max_fear_time)
 void TramPassenger::InitHooks(uintptr_t gameBaseAddress)
 {
     g_SendAnimationToEngine = (SendAnimToEngineFunc)(gameBaseAddress + ADDR_SEND_ANIM);
-    g_DecreasePassengers = (DecreasePassengersFunc)(gameBaseAddress + ADDR_DECREASE_PASSENGERS);
-
 
     Memory::InstallHook(gameBaseAddress + ADDR_CREATE_EMPTY,FindFunctionAdress(&TramPassenger::CreateEmpty), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_KILL, FindFunctionAdress(&TramPassenger::Kill), 5);

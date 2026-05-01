@@ -5,6 +5,7 @@
 struct I3DFrameModel;
 struct AnimFlagContainer;
 struct CollisionTreeData;
+class Tram;
 
 struct Matrix4x4
 {
@@ -35,7 +36,7 @@ public:
     CollisionTreeData* collision_data;
 
     TramPassenger* CreateEmpty();
-    void Kill(void* tram);
+    void Kill(Tram* tram);
     void CreateFear(int new_max_fear_time);
 
     static void InitHooks(uintptr_t gameBaseAddress);

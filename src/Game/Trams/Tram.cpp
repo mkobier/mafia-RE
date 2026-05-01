@@ -4,9 +4,8 @@
 
 void Tram::DecreaseActivePassengers()
 {
-    int currentActivePassengerCount = this->passengerActiveCount;
-    if (currentActivePassengerCount)
-        this->passengerActiveCount = currentActivePassengerCount - 1;
+    if (this->passengerActiveCount > 0)  
+        --this->passengerActiveCount;
 }
 
 void Tram::InitHooks(uintptr_t gameBaseAddress)
