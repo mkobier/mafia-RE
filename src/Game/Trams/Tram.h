@@ -110,11 +110,13 @@ public:
     int field_344[10];                      // 0x344
     int field_36C;                          // 0x36C
 
+    void IncreaseActivePassengers();
     void DecreaseActivePassengers();
 
     static void InitHooks(uintptr_t gameBaseAddress);
 
 private:
+    static constexpr uintptr_t ADDR_INCREASE_ACTIVE_PASSENGERS = 0x97980;
     static constexpr uintptr_t ADDR_DECREASE_ACTIVE_PASSENGERS = 0x97990;
 };
 
