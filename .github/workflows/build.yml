@@ -1,0 +1,45 @@
+name: Build Windows
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Configure CMake
+        run: cmake -B build -S . -G "Visual Studio 17 2022" -A Win32
+
+      - name: Build Release
+        run: cmake --build build --config Release
+
+      - name: Build Debug
+        run: cmake --build build --config Debug
+
+      - name: Upload artifacts (Release)
+        uses: actions/upload-artifact@v7
+        with:
+          name: MafiaRE-Release
+          path: |
+            build/Release/*.asi
+            build/Release/*.pdb
+
+      - name: Upload artifacts (Debug)
+        uses: actions/upload-artifact@v7
+        with:
+          name: MafiaRE-Debug
+          path: |
+            build/Debug/*.asi
+            build/Debug/*.pdb

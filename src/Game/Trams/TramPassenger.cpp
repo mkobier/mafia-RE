@@ -6,7 +6,6 @@
 #include <iostream>
 
 typedef void(__thiscall* SendAnimToEngineFunc)(TramPassenger* pThis, unsigned int a2);
-typedef void(__thiscall* DecreasePassengersFunc)(void* tram);
 
 static SendAnimToEngineFunc g_SendAnimationToEngine = nullptr;
 static constexpr uintptr_t ADDR_SEND_ANIM = 0x841A0;
