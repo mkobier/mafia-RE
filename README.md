@@ -1,4 +1,4 @@
-# mafia-RE
+# mafia-RE [![Build Status](https://github.com/mkobier/Mafia-RE/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/mkobier/Mafia-RE/actions/workflows/build.yml)
 Mafia The City of Lost Heaven: Reimplementation
 
 The project to reimplement some of the game functions and classes.
