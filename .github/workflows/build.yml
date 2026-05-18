@@ -19,27 +19,34 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Configure CMake
-        run: cmake -B build -S . -G "Visual Studio 17 2022" -A Win32
+      - name: Setup Ninja
+        run: choco install ninja
+
+      - name: Setup MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+
+      - name: Build RelWithDebInfo
+        run: |
+          cmake --preset x86-relwithdebinfo
+          cmake --build out/build/x86-relwithdebinfo
 
       - name: Build Release
-        run: cmake --build build --config Release
+        run: |
+          cmake --preset x86-release
+          cmake --build out/build/x86-release
 
-      - name: Build Debug
-        run: cmake --build build --config Debug
+      - name: Upload artifacts (RelWithDebInfo)
+        uses: actions/upload-artifact@v7
+        with:
+          name: MafiaRE-RelWithDebInfo
+          path: |
+            out/build/x86-relwithdebinfo/*.asi
+            out/build/x86-relwithdebinfo/*.pdb
 
       - name: Upload artifacts (Release)
         uses: actions/upload-artifact@v7
         with:
           name: MafiaRE-Release
-          path: |
-            build/Release/*.asi
-            build/Release/*.pdb
-
-      - name: Upload artifacts (Debug)
-        uses: actions/upload-artifact@v7
-        with:
-          name: MafiaRE-Debug
-          path: |
-            build/Debug/*.asi
-            build/Debug/*.pdb
+          path: out/build/x86-release/*.asi

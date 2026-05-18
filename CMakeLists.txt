@@ -37,6 +37,15 @@ endif()
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE 
+        $<$<CONFIG:RelWithDebInfo>:/Zi>
+    )
+    
+    target_link_options(${PROJECT_NAME} PRIVATE 
+        $<$<CONFIG:RelWithDebInfo>:/DEBUG>
+    )
+endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES 
     SUFFIX ".asi"
@@ -45,7 +54,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 target_link_libraries(${PROJECT_NAME} PRIVATE kernel32)
 
-
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E echo "Plugin: $<TARGET_FILE:${PROJECT_NAME}>"
-	)
+)

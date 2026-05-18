@@ -19,23 +19,27 @@
       }
     },
     {
-      "name": "x86-debug",
-      "displayName": "x86 Debug",
-      "description": "Windows (32-bit) - Debug",
+      "name": "x86-relwithdebinfo",
+      "displayName": "x86 RelWithDebInfo",
+      "description": "Windows (32-bit) - asi + pdb",
       "inherits": "windows-base",
       "architecture": {
         "value": "x86",
         "strategy": "external"
       },
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
     },
     {
       "name": "x86-release",
       "displayName": "x86 Release",
-      "description": "Windows (32-bit) - Release",
-      "inherits": "x86-debug",
+      "description": "Windows (32-bit)",
+      "inherits": "windows-base",
+      "architecture": {
+        "value": "x86",
+        "strategy": "external"
+      },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
