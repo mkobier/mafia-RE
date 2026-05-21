@@ -23,11 +23,55 @@ struct PassengerData
     char pad[0x10];
 };
 
+struct Matrix4
+{
+    Vector3 row0;
+    float element0_3;
+    Vector3 row1;
+    float element1_3;
+    Vector3 row2;
+    float element2_3;
+    Vector3 pos;
+    float element3_3;
+
+};
+
+struct I3DFrameModel
+{
+    void** vftable;                             // 0x00
+    int hasSavedData;                           // 0x04
+    int gap8;                                   // 0x08
+    char* userProperties;                       // 0x0C
+    Matrix4x4 globalMatrix;                     // 0x10
+    Matrix4x4 localMatrix;                      // 0x50
+    Vector3 scale;                              // 0x90
+    int rotation[4];                            // 0x9C
+    int stateFlags;                             // 0xAC
+    char field_B0[80];                          // 0xB0
+    char* objectName;                           // 0x100
+    char* shortObjectName;                      // 0x104
+    int(__stdcall* callbackFunction)(int, int, int, int); // 0x108
+    I3DFrameModel* mainModelFrame;              // 0x10C
+    int frameType;                              // 0x110
+    float averageScale;                         // 0x114
+    int field_118;                              // 0x118
+    int childCount;                             // 0x11C
+    I3DFrameModel* parentFrame;                 // 0x120
+    I3DFrameModel* subordinateFrame;            // 0x124
+    I3DFrameModel* previousSiblingFrame;        // 0x128
+    I3DFrameModel* nextSiblingFrame;            // 0x12C
+    int field_130;                              // 0x130
+    I3DFrameModel* child1;                      // 0x134
+    I3DFrameModel* child2;                      // 0x138
+    int pedestrianViewRelated;                  // 0x13C
+};
+
 class Tram
 {
 public:
-    char baseObject[0x70];
-
+    char baseObject[0x68];                  //0x0
+    I3DFrameModel* frameModel;              //0x68
+    int is_duplicated;                      //0x6C
     int unknown0;                           // 0x70
     int field_74;                           // 0x74
     int field_78;                           // 0x78
@@ -59,10 +103,10 @@ public:
     int someArray2;                         // 0x104
     int array2End;                          // 0x108
     int field_10C;                          // 0x10C
-    Matrix4x4 scaleMatrix2;                 // 0x110
+    Matrix4 scaleMatrix2;                   // 0x110
     int field_150[5];                       // 0x150
     I3DFrame* collisionDummyFrame;          // 0x164
-    Matrix4x4 scaleMatrix;                  // 0x168
+    Matrix4 scaleMatrix;                    // 0x168
     int wagonCount;                         // 0x1A8
     float wagonSpacing;                     // 0x1AC
     float metadata2;                        // 0x1B0
@@ -110,12 +154,14 @@ public:
     int field_344[10];                      // 0x344
     int field_36C;                          // 0x36C
 
+    void UpdateOscillation(int deltaTimeMs, int carId, Vector3* carCenter, Vector3* directionVector, Vector3 frontPosition, Vector3 rearPosition);
     void IncreaseActivePassengers();
     void DecreaseActivePassengers();
-
+ 
     static void InitHooks(uintptr_t gameBaseAddress);
 
 private:
+    static constexpr uintptr_t ADDR_UPDATE_OSCILLATION = 0x87D30;
     static constexpr uintptr_t ADDR_INCREASE_ACTIVE_PASSENGERS = 0x97980;
     static constexpr uintptr_t ADDR_DECREASE_ACTIVE_PASSENGERS = 0x97990;
 };
