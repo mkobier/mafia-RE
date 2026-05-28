@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include "TramPassenger.h"
+#include "../Math/Matrix.h"
 
 struct I3DFrame;
 struct I3DFrameSound;
@@ -23,27 +24,14 @@ struct PassengerData
     char pad[0x10];
 };
 
-struct Matrix4
-{
-    Vector3 row0;
-    float element0_3;
-    Vector3 row1;
-    float element1_3;
-    Vector3 row2;
-    float element2_3;
-    Vector3 pos;
-    float element3_3;
-
-};
-
 struct I3DFrameModel
 {
     void** vftable;                             // 0x00
     int hasSavedData;                           // 0x04
     int gap8;                                   // 0x08
     char* userProperties;                       // 0x0C
-    Matrix4x4 globalMatrix;                     // 0x10
-    Matrix4x4 localMatrix;                      // 0x50
+    Matrix globalMatrix;                        // 0x10
+    Matrix localMatrix;                         // 0x50
     Vector3 scale;                              // 0x90
     int rotation[4];                            // 0x9C
     int stateFlags;                             // 0xAC
@@ -103,10 +91,10 @@ public:
     int someArray2;                         // 0x104
     int array2End;                          // 0x108
     int field_10C;                          // 0x10C
-    Matrix4 scaleMatrix2;                   // 0x110
+    Matrix scaleMatrix2;                    // 0x110
     int field_150[5];                       // 0x150
     I3DFrame* collisionDummyFrame;          // 0x164
-    Matrix4 scaleMatrix;                    // 0x168
+    Matrix scaleMatrix;                     // 0x168
     int wagonCount;                         // 0x1A8
     float wagonSpacing;                     // 0x1AC
     float metadata2;                        // 0x1B0

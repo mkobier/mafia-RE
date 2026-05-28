@@ -1,16 +1,12 @@
 #pragma once
 #include <cstdint>
 #include "../Math/Vector3.h"
+#include "../Math/Matrix.h"
 
 struct I3DFrameModel;
 struct AnimFlagContainer;
 struct CollisionTreeData;
 class Tram;
-
-struct Matrix4x4
-{
-    float m[16];
-};
 
 class TramPassenger
 {
@@ -31,7 +27,7 @@ public:
     int max_fear_time;
     int old_passenger_flag;
     int old_animation_number;
-    Matrix4x4 inverse_global_matrix;
+    Matrix inverse_global_matrix;
     int field_8C;
     CollisionTreeData* collision_data;
 

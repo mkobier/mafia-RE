@@ -13,6 +13,8 @@ set(SOURCES
 
     src/Game/Math/Math.h
     src/Game/Math/Math.cpp
+
+    src/Game/Math/Matrix.h
     
     src/Game/Math/Vector3.h
     src/Game/Math/Vector3.cpp

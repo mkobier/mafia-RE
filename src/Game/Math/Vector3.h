@@ -42,3 +42,5 @@ private:
     static constexpr uintptr_t ADDR_VECTOR_CROSS_PRODUCT = 0xBA30;
     static constexpr uintptr_t ADDR_VECTOR_CALCULATE_LENGTH = 0x15AE0;
 };
+
+static_assert(sizeof(Vector3) == 0xC, "Size of Vector3 class is incorrect!");

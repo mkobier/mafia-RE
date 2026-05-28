@@ -4,7 +4,7 @@
 #include <cmath>
 
 typedef void(__thiscall* I3DFrame_UpdateWMatrixFunc)(I3DFrameModel* a1);
-typedef Vector3*(__stdcall* Vector3_OperatorMulFunc)(Vector3* a1, Matrix4* a2);
+typedef Vector3*(__stdcall* Vector3_OperatorMulFunc)(Vector3* a1, Matrix* a2);
 
 static I3DFrame_UpdateWMatrixFunc g_I3DFrame_UpdateWMatrixProc = nullptr;
 static Vector3_OperatorMulFunc g_Vector3_OperatorMul = nullptr;
@@ -47,7 +47,7 @@ void Tram::UpdateOscillation(int deltaTimeMs, int carId, Vector3* carCenter, Vec
     const float speedRatio = this->actualSpeed / this->maxSpeed;
 
     // 4. Prepare rotation matrix (without translation)
-    Matrix4 rotationMatrix;
+    Matrix rotationMatrix;
     std::memcpy(&rotationMatrix, &frameModel->globalMatrix, sizeof(rotationMatrix));
     std::memset(&rotationMatrix.pos, 0, sizeof(rotationMatrix.pos));
 
