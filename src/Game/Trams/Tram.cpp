@@ -1,16 +1,9 @@
 #include "../../Core/memory.h"
+#include "../../Core/GameThunks.h"
 #include "Tram.h"
 #include <cstring>
 #include <cmath>
 
-typedef void(__thiscall* I3DFrame_UpdateWMatrixFunc)(I3DFrameModel* a1);
-typedef Vector3*(__stdcall* Vector3_OperatorMulFunc)(Vector3* a1, Matrix* a2);
-
-static I3DFrame_UpdateWMatrixFunc g_I3DFrame_UpdateWMatrixProc = nullptr;
-static Vector3_OperatorMulFunc g_Vector3_OperatorMul = nullptr;
-
-static constexpr uintptr_t ADDR_UPDATE_W_MATRIX_PROC = 0x20FC30;
-static constexpr uintptr_t ADDR_OPERATOR_MUL = 0x20FC54;
 
 void Tram::UpdateOscillation(int deltaTimeMs, int carId, Vector3* carCenter, Vector3* directionVector, Vector3 frontPosition, Vector3 rearPosition)
 {
@@ -111,7 +104,7 @@ void Tram::UpdateOscillation(int deltaTimeMs, int carId, Vector3* carCenter, Vec
 
     *carCenter = tempCenter;
 
-    // 12. DIRECTION VECTOR NORMALIZATION
+    // 12. Direction vector normalization
     const float lengthSquared =
         directionVector->x * directionVector->x +
         directionVector->z * directionVector->z +
@@ -171,9 +164,6 @@ void Tram::DecreaseActivePassengers()
 
 void Tram::InitHooks(uintptr_t gameBaseAddress)
 {
-    g_I3DFrame_UpdateWMatrixProc = (I3DFrame_UpdateWMatrixFunc)(gameBaseAddress + ADDR_UPDATE_W_MATRIX_PROC);
-    g_Vector3_OperatorMul = (Vector3_OperatorMulFunc)(gameBaseAddress + ADDR_OPERATOR_MUL);
-
     Memory::InstallHook(gameBaseAddress + ADDR_UPDATE_OSCILLATION, FindFunctionAdress(&Tram::UpdateOscillation), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_INCREASE_ACTIVE_PASSENGERS, FindFunctionAdress(&Tram::IncreaseActivePassengers), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_DECREASE_ACTIVE_PASSENGERS, FindFunctionAdress(&Tram::DecreaseActivePassengers), 5);

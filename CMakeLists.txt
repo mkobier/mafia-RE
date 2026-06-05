@@ -11,6 +11,9 @@ set(SOURCES
     src/Core/Memory.h
     src/Core/Memory.cpp
 
+    src/Core/GameThunks.h
+    src/Core/GameThunks.cpp
+
     src/Game/Math/Math.h
     src/Game/Math/Math.cpp
 

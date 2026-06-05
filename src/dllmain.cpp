@@ -1,4 +1,6 @@
 #include <windows.h>
+#include "Core/GameThunks.h"
+
 #include "Game/Math/Math.h"
 #include "Game/Math/Vector3.h"
 #include "Game/Math/Vector2.h"
@@ -14,6 +16,8 @@ DWORD WINAPI MainThread(LPVOID lpParam)
     if (hGame) 
     {
         uintptr_t baseAddress = (uintptr_t)hGame;
+
+        InitThunks(baseAddress);
 
         Math::InitHooks(baseAddress);
 
