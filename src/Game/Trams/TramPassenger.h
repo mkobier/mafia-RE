@@ -34,6 +34,7 @@ public:
     TramPassenger* CreateEmpty();
     void Kill(Tram* tram);
     void CreateFear(int new_max_fear_time);
+    bool IsFemaleAnimation();
 
     static void InitHooks(uintptr_t gameBaseAddress);
 
@@ -42,6 +43,7 @@ private:
     static constexpr uintptr_t ADDR_CREATE_EMPTY = 0x832E0;
     static constexpr uintptr_t ADDR_KILL = 0x84230;
     static constexpr uintptr_t ADDR_CREATE_FEAR = 0x84550;
+    static constexpr uintptr_t ADDR_IS_FEMALE_ANIM = 0x862B0;
 };
 
 static_assert(sizeof(TramPassenger) == 0x94, "Size of TramPassenger class is incorrect!");

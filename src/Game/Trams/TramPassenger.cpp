@@ -4,11 +4,17 @@
 #include "TramPassenger.h"
 #include "Tram.h"
 #include <iostream>
+#include <cstring>
 
 typedef void(__thiscall* SendAnimToEngineFunc)(TramPassenger* pThis, unsigned int a2);
+typedef void(__cdecl* MakeStringPrintableFunc)(char* str);
 
 static SendAnimToEngineFunc g_SendAnimationToEngine = nullptr;
+static MakeStringPrintableFunc g_MakeStringPrintable = nullptr;
+
 static constexpr uintptr_t ADDR_SEND_ANIM = 0x841A0;
+static constexpr uintptr_t ADDR_MAKE_PRINTABLE = 0x210ACC;
+
 
 TramPassenger* TramPassenger::CreateEmpty()
 {
@@ -95,12 +101,41 @@ void TramPassenger::CreateFear(int new_max_fear_time)
     }
 }
 
+bool TramPassenger::IsFemaleAnimation()
+{
+    typedef I3DFrameModel* (__stdcall* GetChildFrameFunc)(I3DFrameModel* pThis, const char* name, unsigned short index);
+
+    if (!this->frame_model)
+        return false;
+
+    auto getChildFrame = (GetChildFrameFunc)(this->frame_model->vftable[14]);
+    I3DFrameModel* backFrame = getChildFrame(this->frame_model, "back1", 0xFFFF);
+
+    if (!backFrame)
+        return false;
+
+    const char* userProperties = backFrame->userProperties;
+    if (!userProperties)
+        userProperties = "";
+
+    char buffer[64];
+    strcpy(buffer, userProperties);
+
+    if (strlen(buffer) <= 3)
+        return false;
+
+    g_MakeStringPrintable(buffer);
+
+    return buffer[0] == 'B';
+}
+
 void TramPassenger::InitHooks(uintptr_t gameBaseAddress)
 {
     g_SendAnimationToEngine = (SendAnimToEngineFunc)(gameBaseAddress + ADDR_SEND_ANIM);
+    g_MakeStringPrintable = (MakeStringPrintableFunc)(gameBaseAddress + ADDR_MAKE_PRINTABLE);
 
     Memory::InstallHook(gameBaseAddress + ADDR_CREATE_EMPTY,FindFunctionAdress(&TramPassenger::CreateEmpty), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_KILL, FindFunctionAdress(&TramPassenger::Kill), 5);
     Memory::InstallHook(gameBaseAddress + ADDR_CREATE_FEAR, FindFunctionAdress(&TramPassenger::CreateFear), 5);
-
+    Memory::InstallHook(gameBaseAddress + ADDR_IS_FEMALE_ANIM, FindFunctionAdress(&TramPassenger::IsFemaleAnimation), 5);
 }
